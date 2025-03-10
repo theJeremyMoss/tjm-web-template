@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>        
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.png">
+    <title>theJeremyMoss.com - Hello!</title>
+  </head>
+  <body>
+
+<div id="masthead">
+  <div>
+    <div id="card">
+        <img src="jm.jpg"  height="150px" width="150px">
+        <h1 class="font-weight-light animate__animated animate__fadeInUp" style="font-family: 'Boogaloo', cursive;font-size: 4em;">theJeremyMoss</h1>
+        <p class="lead animate__animated animate__fadeInUp animate__delay-1s">Hello World!</p>
+        <p class="lead">
+            <a target="_blank" href="blog" style="animation-delay: 2s" class="btn btn-lg btn-outline-light animate__animated animate__fadeInUp fab fa-blogger"></a>
+            <a target="_blank" href="https://twitter.com/thejeremymoss" style="animation-delay: 2.15s" class="btn btn-lg btn-outline-light animate__animated animate__fadeInUp fab fa-twitter"></a>
+            <a target="_blank" href="https://www.linkedin.com/in/thejeremymoss/" style="animation-delay: 2.30s" class="btn btn-lg btn-outline-light animate__animated animate__fadeInUp fab fa-linkedin"></a>
+            <a target="_blank" href="mailto:web@thejeremymoss.com" style="animation-delay: 2.45s" class="btn btn-lg btn-outline-light animate__animated animate__fadeInUp fas fa-envelope"></a>
+            <a target="_blank" href="https://keybase.io/thejeremymoss" style="animation-delay: 2.60s" class="btn btn-lg btn-outline-light animate__animated animate__fadeInUp fa fa-key"></a>
+            <!-- <a target="_blank" href="https://github.com/theJeremyMoss" style="animation-delay: 2.60s" class="btn btn-lg btn-outline-light animate__animated animate__fadeInUp fab fa-github"></a> -->
+        </p>
+    </div>
+  </div>
+</div>
+
+    <script src="js/popper.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/tsparticles.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>$(window).scroll(function(){$('nav').toggleClass('scrolled', $(this).scrollTop() > 512);});</script> 
+    <script>particlesJS("masthead",
+      {particles:{
+        number:{
+          value:170,
+          density:{
+            enable:!1,
+            value_area:700
+          }
+        },
+        color:{
+          value:[
+            "#23B0FF",
+            "#78E2A0",
+            "#FFA86A",
+            "#B48EAD"
+          ]
+        },
+        opacity:{
+          value:.5,
+          random:!1,
+          anim:{
+            enable:!0,
+            speed:2,
+            opacity_min:0,
+            sync:!1
+            }
+          },
+        size:{value:3,random:!1,anim:{enable:!0,speed:5,size_min:0,sync:!1}},
+        line_linked:{enable:!0,distance:100,color:"#ffffff",opacity:.2,width:1},
+        move:{enable:!0,speed:6,direction:"none",random:!0,straight:!1,out_mode:"out",bounce:!1,attract:{enable:!1,rotateX:600,rotateY:1200}}
+        },interactivity:{detect_on:"canvas",events:{onhover:{enable:!0,mode:"grab"},onclick:{enable:!1,mode:"grab"},resize:!0},modes:{grab:{distance:150,line_linked:{opacity:1}},bubble:{distance:400,size:40,duration:2,opacity:8,speed:3},repulse:{distance:200,duration:.4},push:{particles_nb:4},remove:{particles_nb:2}}},fpsLimit: 60});</script>
+</body>
+</html>
