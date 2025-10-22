@@ -2,6 +2,7 @@
 
 # Reusable Website Deployment Script
 # Usage: ./deploy.sh [aws-profile] [--dry-run]
+# CloudFront Distribution ID: Set CLOUDFRONT_DIST_ID environment variable or script will prompt
 
 set -e  # Exit on any error
 
@@ -10,7 +11,6 @@ PROJECT_NAME="theJeremyMoss.com"
 DOMAIN_NAME="thejeremymoss.com"
 BUCKET_NAME="s3-tjm-website"
 BUCKET_PATH=""      # Optional bucket path 
-CLOUDFRONT_DIST_ID="E18FP85I533X35"
 DEFAULT_PROFILE="personal-prod"
 
 # EXCLUDE PATTERNS
@@ -34,6 +34,32 @@ EXCLUDE_DIRECTORIES=(
 AWS_PROFILE=${1:-$DEFAULT_PROFILE}
 DRY_RUN=${2:-""}
 
+# Get CloudFront Distribution ID
+get_cloudfront_id() {
+    # Check if provided as environment variable
+    if [ -n "$CLOUDFRONT_DIST_ID" ]; then
+        echo -e "${GREEN}✅ Using CloudFront Distribution ID from environment variable${NC}"
+        return 0
+    fi
+    
+    # Prompt user for CloudFront Distribution ID
+    echo -e "${YELLOW}CloudFront Distribution ID is required for deployment.${NC}"
+    echo -e "${BLUE}You can find this in AWS Console > CloudFront > Distributions${NC}"
+    echo ""
+    read -p "Enter CloudFront Distribution ID: " CLOUDFRONT_DIST_ID
+    
+    # Validate input
+    if [ -z "$CLOUDFRONT_DIST_ID" ]; then
+        echo -e "${RED}❌ CloudFront Distribution ID is required.${NC}"
+        echo -e "${YELLOW}Tip: You can also set it as an environment variable:${NC}"
+        echo -e "${YELLOW}export CLOUDFRONT_DIST_ID=your-distribution-id${NC}"
+        exit 1
+    fi
+    
+    echo -e "${GREEN}✅ CloudFront Distribution ID set: ${YELLOW}$CLOUDFRONT_DIST_ID${NC}"
+    echo ""
+}
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -53,7 +79,6 @@ print_header() {
         echo -e "S3 Bucket: ${YELLOW}s3://$BUCKET_NAME${NC}"
     fi
     echo -e "Domain: ${YELLOW}$DOMAIN_NAME${NC}"
-    echo -e "CloudFront: ${YELLOW}$CLOUDFRONT_DIST_ID${NC}"
     if [ "$DRY_RUN" = "--dry-run" ]; then
         echo -e "${PURPLE}🔍 DRY RUN MODE - No actual changes will be made${NC}"
     fi
@@ -175,6 +200,7 @@ show_summary() {
 main() {
     print_header
     check_prerequisites
+    get_cloudfront_id
     
     deploy_website
     show_summary
@@ -188,10 +214,16 @@ show_help() {
     echo "  aws-profile    AWS profile to use (default: $DEFAULT_PROFILE)"
     echo "  --dry-run      Show what would be deployed without making changes"
     echo ""
+    echo "CloudFront Distribution ID:"
+    echo "  The script requires a CloudFront Distribution ID. You can provide it by:"
+    echo "  1. Setting environment variable: export CLOUDFRONT_DIST_ID=your-id"
+    echo "  2. The script will prompt you interactively if not set"
+    echo ""
     echo "Examples:"
-    echo "  $0                          # Deploy using default profile"
-    echo "  $0 my-profile               # Deploy using specific profile"
-    echo "  $0 my-profile --dry-run     # Dry run with specific profile"
+    echo "  $0                                    # Deploy using default profile"
+    echo "  $0 my-profile                         # Deploy using specific profile"
+    echo "  $0 my-profile --dry-run               # Dry run with specific profile"
+    echo "  CLOUDFRONT_DIST_ID=E123... $0         # Deploy with environment variable"
     echo ""
     echo "Configuration:"
     echo "  Project: $PROJECT_NAME"
@@ -200,7 +232,6 @@ show_help() {
     if [ -n "$BUCKET_PATH" ]; then
         echo "  Bucket Path: $BUCKET_PATH"
     fi
-    echo "  CloudFront Distribution: $CLOUDFRONT_DIST_ID"
     echo ""
     echo "Excluded files:"
     for file in "${EXCLUDE_FILES[@]}"; do

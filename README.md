@@ -23,11 +23,18 @@ open http://localhost:8000
 
 ### Deploy to AWS
 ```bash
-# Deploy with default profile
+# Deploy with default profile (will prompt for CloudFront ID)
+./deploy.sh
+
+# Deploy with environment variable
+export CLOUDFRONT_DIST_ID=EXXXXXXXXXXXXX
 ./deploy.sh
 
 # Deploy with specific AWS profile
 ./deploy.sh your-aws-profile
+
+# Deploy with environment variable and specific profile
+CLOUDFRONT_DIST_ID=EXXXXXXXXXXXXX ./deploy.sh your-aws-profile
 
 # Preview changes (dry run)
 ./deploy.sh your-aws-profile --dry-run
@@ -51,8 +58,24 @@ open http://localhost:8000
 
 - **Domain**: thejeremymoss.com
 - **S3 Bucket**: s3-tjm-website
-- **CloudFront ID**: E18FP85I533X35
 - **Default AWS Profile**: personal-prod
+
+### CloudFront Distribution ID
+
+The deployment script requires your CloudFront Distribution ID. You can provide it in two ways:
+
+1. **Environment Variable** (recommended for reuse):
+   ```bash
+   export CLOUDFRONT_DIST_ID=EXXXXXXXXXXXXX
+   ./deploy.sh
+   ```
+
+2. **Interactive Prompt**: The script will ask you to enter it if not set as an environment variable.
+
+**Finding your CloudFront Distribution ID:**
+- Go to [AWS Console > CloudFront](https://console.aws.amazon.com/cloudfront/)
+- Find your distribution for the domain
+- Copy the Distribution ID (format: E123ABCD456EFG)
 
 ### Excluded from Deployment
 - `README.md`
