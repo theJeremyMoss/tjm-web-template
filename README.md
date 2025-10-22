@@ -1,7 +1,7 @@
 # Personal Website
 My minimal website. 
 
-Created with Bootstrap v5, animate.css and tsParticles.
+Created with Tailwind CSS, tsParticles, and 🤖.
 
 # Check it
 ![](screenshot.png)
